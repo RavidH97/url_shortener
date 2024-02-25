@@ -59,7 +59,7 @@ user_email (required): Email address of the user requesting the shortened URL.
 For example:
 http://localhost:8000/shorten?original_url=https://www.taylorswift.com/&user_email=ravidh@example.com
 
-### Future implementation:
+## Future implementation:
 In the future, I plan to upgrade the load balancer setup by implementing a better Manager-Workers model.
 Instead of just redirecting requests, the manager will actively monitor and handle them using communication queues like SQS.
 This upgrade will enable the system to better manage resources by starting and stopping workers base on use. 
