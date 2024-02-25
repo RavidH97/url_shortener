@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <form id="shortenForm">
+        <input type="text" id="originalUrlInput" name="original_url" placeholder="Enter original URL" required>
+        <input type="email" id="userEmailInput" name="user_email" placeholder="Enter your email" required>
+        <button type="submit">Shorten URL</button>
+    </form>
+    <div id="shortenedUrl"></div>
+
+    <script>
+        document.getElementById("shortenForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const originalUrl = document.getElementById("originalUrlInput").value;
+            const userEmail = document.getElementById("userEmailInput").value;
+
+            fetch(`http://localhost:8000/shorten?original_url=${encodeURIComponent(originalUrl)}&user_email=${encodeURIComponent(userEmail)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the response data
+                    const shortenedUrl = data.short_url;
+                    document.getElementById("shortenedUrl").innerHTML = `Shortened URL: <a href="${shortenedUrl}" target="_blank">${shortenedUrl}</a>`;
+                })
+                .catch(error => {
+                    console.error('There was an error with the API request:', error);
+                });
+        });
+    </script>
+</body>
+</html>
